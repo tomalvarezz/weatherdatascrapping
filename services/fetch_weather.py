@@ -1,20 +1,33 @@
-#API call handler
+# services/fetch_weather.py
+
 import os
 import requests
 import pandas as pd
 from dotenv import load_dotenv
-from services.constants import CITIES, CELSIUS_TO_FAHRENHEIT_SCALE, CELSIUS_TO_FAHRENHEIT_OFFSET, MPS_TO_MPH
+from services.constants import CELSIUS_TO_FAHRENHEIT_SCALE, CELSIUS_TO_FAHRENHEIT_OFFSET, MPS_TO_MPH
 
 load_dotenv()
-API_BASE = os.getenv("OPEN_METEO_URL")
+WEATHER_URL = os.getenv("OPEN_METEO_URL")
+GEOCODING_URL = os.getenv("GEOCODING_URL")
 
-def fetch_weather_data():
+def get_coordinates(city_name):
+    response = requests.get(GEOCODING_URL, params={"name": city_name, "count": 1})
+    if response.status_code == 200:
+        results = response.json().get("results")
+        if results:
+            lat = results[0]["latitude"]
+            lon = results[0]["longitude"]
+            return lat, lon
+    return None, None
+
+def fetch_weather_for_cities(city_list):
     weather_data = []
 
-    for city in CITIES:
-        city_name = city["City"]
-        lat = city["Latitude"]
-        lon = city["Longitude"]
+    for city_name in city_list:
+        lat, lon = get_coordinates(city_name)
+        if lat is None:
+            print(f"Skipping city '{city_name}': coordinates not found")
+            continue
 
         params = {
             "latitude": lat,
@@ -25,7 +38,7 @@ def fetch_weather_data():
         }
 
         try:
-            response = requests.get(API_BASE, params=params)
+            response = requests.get(WEATHER_URL, params=params)
             response.raise_for_status()
             data = response.json()
 
@@ -42,14 +55,10 @@ def fetch_weather_data():
             weather_data.append({
                 "City": city_name,
                 "Temperature (C)": current.get("temperature"),
-                "Temperature (F)": round(
-                    (current.get("temperature", 0) * CELSIUS_TO_FAHRENHEIT_SCALE) + CELSIUS_TO_FAHRENHEIT_OFFSET, 2
-                ),
+                "Temperature (F)": round((current.get("temperature", 0) * CELSIUS_TO_FAHRENHEIT_SCALE) + CELSIUS_TO_FAHRENHEIT_OFFSET, 2),
                 "Humidity (%)": humidity,
                 "Wind Speed (m/s)": current.get("windspeed"),
-                "Wind Speed (mph)": round(
-                    current.get("windspeed", 0) * MPS_TO_MPH, 2
-                )
+                "Wind Speed (mph)": round(current.get("windspeed", 0) * MPS_TO_MPH, 2)
             })
 
         except Exception as e:
