@@ -1,7 +1,7 @@
-fastapi
-uvicorn
-python-dotenv
-python-dateutil
-pandas
-requests
-matplotlib
+fastapi==0.111.0
+uvicorn==0.29.0
+python-dotenv==1.0.1
+python-dateutil==2.9.0.post0
+pandas==2.2.2
+requests==2.31.0
+matplotlib==3.8.4

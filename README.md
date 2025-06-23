@@ -57,6 +57,8 @@ weather_app/
 │   └── weather_data.csv     # auto-generated csv containing the processed weather data
 ├── schemas/
 │   └── city_request.py      # request model for http method
+├── tests/
+│   └── test_fetch_weather.py  # some simple unit tests for mocking request
 ├── .env                     # base url from the API
 ├── requirements.txt         # dependencies for python
 └── README.md                # documentation (this!)
