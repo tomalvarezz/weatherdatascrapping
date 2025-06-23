@@ -1,16 +1,16 @@
-### 🏠 Welcome Page
+###  Welcome Page
 GET http://127.0.0.1:8000/
 
-### 📄 Swagger Docs (OpenAPI)
+###  Swagger Docs (OpenAPI)
 GET http://127.0.0.1:8000/docs
 
-### 📦 Download default CSV
+###  Download default CSV
 GET http://127.0.0.1:8000/csv
 
-### 🌡️ View Temperature Chart
+###  View Temperature Chart
 GET http://127.0.0.1:8000/temperature_chart
 
-### 💧 View Humidity Chart
+###  View Humidity Chart
 GET http://127.0.0.1:8000/humidity_chart
 
 ### Top Wind Speed
@@ -23,10 +23,12 @@ GET http://127.0.0.1:8000/lowest_humidity
 ### Top Temperature
 GET http://127.0.0.1:8000/top_temperature
 
-### 🌍 POST Custom Weather Data
+### POST Custom Weather Data
 POST http://127.0.0.1:8000/custom_weather
 Content-Type: application/json
 
+
+## You can add whatever city you like here
 {
   "cities": ["Tokyo", "Buenos Aires", "Cairo", "Madrid", "Singapore","Tel Aviv"]
 }

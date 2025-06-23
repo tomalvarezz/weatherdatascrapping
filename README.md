@@ -40,7 +40,7 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
   - `/temperature_chart`: temperature bar chart
   - `/humidity_chart`: humidity bar chart
 
-- Also available to test for custom cities, with city name , can use http POST with a list of cities in string and generates the    custom_weather_data.csv, i tested it with test.http file that works with REST client extension for vscode, you can use whichever you prefer :D
+- Also available to test for custom cities, with city name , can use http POST with a list of cities in string and generates the    custom_weather_data.csv, i tested it with test.http file that works with REST client extension for vscode, you can use whatever client you prefer :D
 
 ---
 
