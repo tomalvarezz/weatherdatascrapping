@@ -1,29 +1,41 @@
-# Weather Data Scraper + Dashboards and Swagger Docs by Tomas Alvarez Escalante
+# Weather Data Scraper + Dashboards and Swagger Docs  
 
-This project fetches real-time weather data from the [Open-Meteo](https://open-meteo.com/en/docs) public API, processes the data, generates a CSV file, and exposes visualizations through a FastAPI-based web server.
+by Tomas Alvarez Escalante
+
+This project fetches real-time weather data from the [Open-Meteo](https://open-meteo.com/en/docs) public API, processes it, generates a CSV file, and exposes visualizations through a FastAPI-based web server.
 
 ---
 
-## How to run?
+## How to Run
 
-- Create a .env file in the project root with the following content:
-    OPEN_METEO_URL=<https://api.open-meteo.com/v1/forecast>
-    GEOCODING_URL=<https://geocoding-api.open-meteo.com/v1/search>
+1. Create a `.env` file in the project root with the following content:
 
-- Start the FastAPI server using Uvicorn:
+    ```
+    OPEN_METEO_URL=https://api.open-meteo.com/v1/forecast
+    GEOCODING_URL=https://geocoding-api.open-meteo.com/v1/search
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3. Start the FastAPI server using Uvicorn:
+
+    ```bash
     uvicorn main:app --reload
+    ```
 
--Open the browser, and access the app at
+4. Access the app in your browser:
 
-    <http://127.0.0.1:8000/> – Welcome page
+- `http://127.0.0.1:8000/` – Welcome page  
+- `http://127.0.0.1:8000/docs` – Swagger UI (API documentation)  
+- `http://127.0.0.1:8000/csv` – Download the CSV file  
+- `http://127.0.0.1:8000/temperature_chart` – Temperature chart (PNG)  
+- `http://127.0.0.1:8000/humidity_chart` – Humidity chart (PNG)
 
-    <http://127.0.0.1:8000/docs> – Swagger UI (API documentation)
-
-    <http://127.0.0.1:8000/csv> – Download the CSV file
-
-    <http://127.0.0.1:8000/temperature_chart> – Temperature chart (PNG)
-
-    <http://127.0.0.1:8000/humidity_chart> – Humidity chart (PNG)
+---
 
 ## Features
 
@@ -39,13 +51,13 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
   - `/csv`: download the CSV file
   - `/temperature_chart`: temperature bar chart
   - `/humidity_chart`: humidity bar chart
-
-- Also available to test for custom cities, with city name , can use http POST with a list of cities in string and generates the    custom_weather_data.csv, i tested it with test.http file that works with REST client extension for vscode, you can use whatever client you prefer :D
+- Custom city support:
+  - Accepts a list of cities via HTTP POST and generates a `custom_weather_data.csv`.
+  - You can test this using a `.http` file with the REST Client extension in VSCode or any client of your choice.
 
 ---
 
-## Project structure
-
+## Project Structure
 weather_app/
 ├── main.py                  # FastAPI entrypoint, handles routing and API exposure  (controller)
 ├── services/
@@ -61,11 +73,15 @@ weather_app/
 │   └── test_fetch_weather.py  # some simple unit tests for mocking request
 ├── .env                     # base url from the API
 ├── requirements.txt         # dependencies for python
-└── README.md                # documentation (this!)
+└── README.md                # documentation (this!)
 
-## Requirements
-
-Install dependencies with:
+## Dependencies
 
 ```bash
-pip install -r requirements.txt
+fastapi
+uvicorn
+python-dotenv
+python-dateutil
+pandas
+requests
+matplotlib
