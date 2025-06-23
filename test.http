@@ -24,6 +24,8 @@ GET http://127.0.0.1:8000/lowest_humidity
 GET http://127.0.0.1:8000/top_temperature
 
 ### POST Custom Weather Data
+# may take a while as the API accepts one city per request + the request of the weather data afterwards
+# so i decided to cache
 POST http://127.0.0.1:8000/custom_weather
 Content-Type: application/json
 
