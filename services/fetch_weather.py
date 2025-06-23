@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from dateutil import parser
 
+# Import constants for unit conversion and default cities
 from services.constants import (
     CELSIUS_TO_FAHRENHEIT_SCALE,
     CELSIUS_TO_FAHRENHEIT_OFFSET,
@@ -14,13 +15,16 @@ from services.constants import (
     CITIES
 )
 
+# Load environment variables from .env file
 load_dotenv()
 WEATHER_URL = os.getenv("OPEN_METEO_URL")
 GEOCODING_URL = os.getenv("GEOCODING_URL")
 
+# Fetch weather for the predefined list of cities
 def fetch_weather_data():
     return fetch_weather_for_cities([city["City"] for city in CITIES])
 
+# Use Open-Meteo Geocoding API to get coordinates (lat/lon) from city name
 def get_coordinates(city_name):
     response = requests.get(GEOCODING_URL, params={"name": city_name, "count": 1})
     if response.status_code == 200:
@@ -31,6 +35,7 @@ def get_coordinates(city_name):
             return lat, lon
     return None, None
 
+# Core logic: fetch current weather + nearest humidity for a list of city names
 def fetch_weather_for_cities(city_list):
     weather_data = []
 
@@ -38,14 +43,15 @@ def fetch_weather_for_cities(city_list):
         lat, lon = get_coordinates(city_name)
         if lat is None:
             print(f"Skipping city '{city_name}': coordinates not found")
-            continue
+            continue  # skip cities we can't geolocate
 
+        # Parameters for the Open-Meteo weather API
         params = {
             "latitude": lat,
             "longitude": lon,
             "current_weather": True,
-            "hourly": "relativehumidity_2m",
-            "timezone": "auto"
+            "hourly": "relativehumidity_2m",  # get hourly humidity as current weather condition needs it
+            "timezone": "auto"  # auto-align timezones to local city time
         }
 
         try:
@@ -53,9 +59,11 @@ def fetch_weather_for_cities(city_list):
             response.raise_for_status()
             data = response.json()
 
+            # Extract current weather block (temp, wind, timestamp)
             current = data.get("current_weather", {})
-            humidity = None
+            humidity = None  # initialize
 
+            # Match humidity using the closest timestamp to current time as it was previously failing due to hour vs timestamp mismatch
             hourly = data.get("hourly", {})
             if "time" in hourly and "relativehumidity_2m" in hourly:
                 current_time_str = current.get("time")
@@ -64,13 +72,14 @@ def fetch_weather_for_cities(city_list):
                     hourly_times = [parser.parse(t) for t in hourly["time"]]
                     humidity_values = hourly["relativehumidity_2m"]
 
-                    # Find the index of the closest timestamp
+                    # Match the closest humidity value by comparing timestamps
                     closest_idx = min(
                         range(len(hourly_times)),
                         key=lambda i: abs((hourly_times[i] - current_time).total_seconds())
                     )
                     humidity = humidity_values[closest_idx]
 
+            # Append processed data to list
             weather_data.append({
                 "City": city_name,
                 "Temperature (C)": current.get("temperature"),
@@ -85,4 +94,5 @@ def fetch_weather_for_cities(city_list):
         except Exception as e:
             print(f"Error fetching data for {city_name}: {e}")
 
+    # Return final DataFrame with all city data
     return pd.DataFrame(weather_data)
