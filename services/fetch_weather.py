@@ -67,12 +67,19 @@ def fetch_weather_for_cities(city_list):
             hourly = data.get("hourly", {})
             if "time" in hourly and "relativehumidity_2m" in hourly:
                 current_time_str = current.get("time")
+
+                 # Converts all hourly timestamps into datetime objects.
+                 #Extracts the corresponding list of humidity values (1 per hour).
+                
                 if current_time_str:
                     current_time = parser.parse(current_time_str)
                     hourly_times = [parser.parse(t) for t in hourly["time"]]
                     humidity_values = hourly["relativehumidity_2m"]
 
                     # Match the closest humidity value by comparing timestamps
+                    #For each index i, compute the time difference between hourly_times[i] and current_time.
+                    #Find the index closest_idx with the smallest time difference → i.e., the closest humidity reading.
+                    
                     closest_idx = min(
                         range(len(hourly_times)),
                         key=lambda i: abs((hourly_times[i] - current_time).total_seconds())
