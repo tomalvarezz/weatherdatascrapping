@@ -8,6 +8,7 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
 
 - Create a .env file in the project root with the following content:
     OPEN_METEO_URL=<https://api.open-meteo.com/v1/forecast>
+    GEOCODING_URL=<https://geocoding-api.open-meteo.com/v1/search>
 
 - Start the FastAPI server using Uvicorn:
     uvicorn main:app --reload
@@ -39,6 +40,8 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
   - `/temperature_chart`: temperature bar chart
   - `/humidity_chart`: humidity bar chart
 
+- Also available to test for custom cities, with city name , can use http POST with a list of cities in string and generates the    custom_weather_data.csv, i tested it with test.http file that works with REST client extension for vscode, you can use whichever you prefer :D
+
 ---
 
 ## Project structure
@@ -56,7 +59,7 @@ weather_app/
 │   └── city_request.py      # request model for http method
 ├── .env                     # base url from the API
 ├── requirements.txt         # dependencies for python
-└── README.md                # documentation
+└── README.md                # documentation (this!)
 
 ## Requirements
 
