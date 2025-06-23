@@ -16,13 +16,31 @@ app = FastAPI(title="Weather Data API")
 @app.get("/", response_class=HTMLResponse)
 def home():
     return """
-    <h2>Welcome to the Weather API</h2>
-    <ul>
-      <li><a href="/csv">Download CSV</a></li>
-      <li><a href="/temperature_chart">Temperature Chart</a></li>
-      <li><a href="/humidity_chart">Humidity Chart</a></li>
-      <li><a href="/docs">Swagger API docs</a></li>
-    </ul>
+    <html>
+    <head>
+        <title>Weather API</title>
+        <style>
+            body { font-family: Arial; margin: 40px; background: #f4f4f4; color: #333; }
+            h1 { color: #2c3e50; }
+            ul { line-height: 1.8; }
+            a { color: #2980b9; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+        </style>
+    </head>
+    <body>
+        <h1>🌤️ Weather Data Dashboard</h1>
+        <p>Welcome to the weather data API. You can:</p>
+        <ul>
+            <li><a href="/docs">Explore the API (Swagger Docs)</a></li>
+            <li><a href="/csv">Download Weather CSV</a></li>
+            <li><a href="/temperature_chart">View Temperature Chart (°C)</a></li>
+            <li><a href="/temperature_f_chart">View Temperature Chart (°F)</a></li>
+            <li><a href="/humidity_chart">View Humidity Chart</a></li>
+            <li><a href="/wind_chart">View Wind Speed Chart (m/s)</a></li>
+            <li><a href="/wind_mph_chart">View Wind Speed Chart (mph)</a></li>
+        </ul>
+    </body>
+    </html>
     """
 
 @app.get("/csv")
@@ -37,6 +55,21 @@ def get_temperature_chart():
 @app.get("/humidity_chart")
 def get_humidity_chart():
     buffer = create_bar_chart(df, "Humidity (%)", "Humidity by City", "%")
+    return StreamingResponse(buffer, media_type="image/png")
+
+@app.get("/wind_chart")
+def get_wind_chart():
+    buffer = create_bar_chart(df, "Wind Speed (m/s)", "Wind Speed by City", "m/s")
+    return StreamingResponse(buffer, media_type="image/png")
+
+@app.get("/wind_mph_chart")
+def get_wind_mph_chart():
+    buffer = create_bar_chart(df, "Wind Speed (mph)", "Wind Speed (mph) by City", "mph")
+    return StreamingResponse(buffer, media_type="image/png")
+
+@app.get("/temperature_f_chart")
+def get_temperature_f_chart():
+    buffer = create_bar_chart(df, "Temperature (F)", "Temperature (F) by City", "°F")
     return StreamingResponse(buffer, media_type="image/png")
 
 

@@ -8,6 +8,33 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
 
 ## How to Run
 
+### Option 1 – Recommended (via Script)
+
+Run the appropriate setup script depending on your operating system:
+
+- **Windows:**
+
+    ```bash
+    run.bat
+    ```
+
+- **Linux/macOS:**
+
+    ```bash
+    bash run.sh
+    ```
+
+These scripts will:
+
+- Create and activate a virtual environment (Useful and portable but not neccesary, as it may prevent crash with local dependencies)
+- Install all required dependencies
+- Create a default `.env` file if it doesn't exist
+- Start the FastAPI server
+
+---
+
+### Option 2 – Manual Steps
+
 1. Create a `.env` file in the project root with the following content:
 
     ```
@@ -61,6 +88,7 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
 ---
 
 ## Project Structure
+
 weather_app/
 ├── main.py                  # FastAPI entrypoint, handles routing and API exposure  (controller)
 ├── services/
