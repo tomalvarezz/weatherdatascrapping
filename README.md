@@ -61,22 +61,23 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
 ---
 
 ## Project Structure
+
 weather_app/
-├── main.py                  # FastAPI entrypoint, handles routing and API exposure  (controller)
+├── main.py # FastAPI entrypoint, handles routing and API exposure (controller)
 ├── services/
-│   ├── fetch_weather.py     # handles the the Open-Meteo API calls and processing weather data
-│   └── constants.py         # constant utils for unit conversions and the list of predefined cities
+│ ├── fetch_weather.py # Handles Open-Meteo API calls and weather data processing
+│ └── constants.py # Constants for unit conversions and predefined city list
 ├── utils/
-│   └── charts.py            # chart generation functions using matplotlib
+│ └── charts.py # Chart generation using matplotlib
 ├── data/
-│   └── weather_data.csv     # auto-generated csv containing the processed weather data
+│ └── weather_data.csv # Auto-generated CSV with processed weather data
 ├── schemas/
-│   └── city_request.py      # request model for http method
+│ └── city_request.py # Request model schema for POST input
 ├── tests/
-│   └── test_fetch_weather.py  # some simple unit tests for mocking request
-├── .env                     # base url from the API
-├── requirements.txt         # dependencies for python
-└── README.md                # documentation (this!)
+│ └── test_fetch_weather.py # Unit tests using pytest and mock
+├── .env # Environment variables for API URLs
+├── requirements.txt # Python dependencies
+└── README.md # Documentation (this file)
 
 ## Dependencies
 
