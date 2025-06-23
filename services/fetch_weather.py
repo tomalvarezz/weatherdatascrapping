@@ -35,7 +35,7 @@ def get_coordinates(city_name):
             return lat, lon
     return None, None
 
-# Core logic: fetch current weather + nearest humidity for a list of city names
+# Core logic: fetch current weather + nearest humidity for a list of city names (nearest meaning hourly relative humidity)
 def fetch_weather_for_cities(city_list):
     weather_data = []
 

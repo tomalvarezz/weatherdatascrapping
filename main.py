@@ -5,6 +5,8 @@ from schemas.city_request import CityRequest
 from services.fetch_weather import fetch_weather_data, fetch_weather_for_cities
 from utils.charts import create_bar_chart
 
+## Below is basically the app controller , entrypoint for FastAPI
+
 # load default cities dict weather data
 df = fetch_weather_data()
 df.to_csv("data/weather_data.csv", index=False)
@@ -45,6 +47,8 @@ def custom_weather(req: CityRequest):
     df_custom = fetch_weather_for_cities(req.cities)
     df_custom.to_csv("data/custom_weather_data.csv", index=False)
     return df_custom.to_dict(orient="records")
+
+##Rankings and filters using pandas directly
 
 @app.get("/top_temperature")
 def get_top_temperature(n: int = 5):
