@@ -43,6 +43,9 @@ This project fetches real-time weather data from the [Open-Meteo](https://open-m
 - Converts units:
   - Temperature: Celsius → Fahrenheit
   - Wind Speed: m/s → mph
+- Filters and rankings:
+  - Top cities by highest temperature
+  - Top cities by lowest humidity
 - Exports processed data to a `CSV` file.
 - Provides visualizations:
   - Temperature by city
