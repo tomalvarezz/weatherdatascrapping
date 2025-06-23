@@ -1,7 +1,7 @@
 City,Temperature (C),Temperature (F),Humidity (%),Wind Speed (m/s),Wind Speed (mph)
-Tokyo,30.6,87.08,66,10.7,23.94
-Buenos Aires,6.2,43.16,66,13.9,31.09
-Cairo,21.6,70.88,71,3.8,8.5
-Madrid,24.6,76.28,48,5.9,13.2
-Singapore,28.2,82.76,82,7.6,17.0
-Tel Aviv,24.4,75.92,82,6.9,15.43
+Tokyo,30.7,87.26,65,10.7,23.94
+Buenos Aires,6.2,43.16,69,13.8,30.87
+Cairo,21.5,70.7,73,3.6,8.05
+Madrid,24.4,75.92,51,5.7,12.75
+Singapore,28.3,82.94,81,7.8,17.45
+Tel Aviv,24.4,75.92,79,7.0,15.66
