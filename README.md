@@ -52,6 +52,8 @@ weather_app/
 │   └── charts.py            # chart generation functions using matplotlib
 ├── data/
 │   └── weather_data.csv     # auto-generated csv containing the processed weather data
+├── schemas/
+│   └── city_request.py      # request model for http method
 ├── .env                     # base url from the API
 ├── requirements.txt         # dependencies for python
 └── README.md                # documentation

@@ -1,0 +1,22 @@
+### 🏠 Welcome Page
+GET http://127.0.0.1:8000/
+
+### 📄 Swagger Docs (OpenAPI)
+GET http://127.0.0.1:8000/docs
+
+### 📦 Download default CSV
+GET http://127.0.0.1:8000/csv
+
+### 🌡️ View Temperature Chart
+GET http://127.0.0.1:8000/temperature_chart
+
+### 💧 View Humidity Chart
+GET http://127.0.0.1:8000/humidity_chart
+
+### 🌍 POST Custom Weather Data
+POST http://127.0.0.1:8000/custom_weather
+Content-Type: application/json
+
+{
+  "cities": ["Tokyo", "Buenos Aires", "Cairo", "Madrid", "Singapore","Tel Aviv"]
+}
