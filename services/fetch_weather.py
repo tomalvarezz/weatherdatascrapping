@@ -4,11 +4,15 @@ import os
 import requests
 import pandas as pd
 from dotenv import load_dotenv
-from services.constants import CELSIUS_TO_FAHRENHEIT_SCALE, CELSIUS_TO_FAHRENHEIT_OFFSET, MPS_TO_MPH
+from services.constants import CELSIUS_TO_FAHRENHEIT_SCALE, CELSIUS_TO_FAHRENHEIT_OFFSET, MPS_TO_MPH,CITIES
 
 load_dotenv()
 WEATHER_URL = os.getenv("OPEN_METEO_URL")
 GEOCODING_URL = os.getenv("GEOCODING_URL")
+
+def fetch_weather_data():
+    return fetch_weather_for_cities([city["City"] for city in CITIES])
+
 
 def get_coordinates(city_name):
     response = requests.get(GEOCODING_URL, params={"name": city_name, "count": 1})

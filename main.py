@@ -1,14 +1,11 @@
-
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse
-from services.fetch_weather import fetch_weather_data
-from utils.charts import create_bar_chart
-from pydantic import BaseModel
 from typing import List
-from services.fetch_weather import fetch_weather_for_cities
+from schemas.city_request import CityRequest  
+from services.fetch_weather import fetch_weather_data, fetch_weather_for_cities
+from utils.charts import create_bar_chart
 
-#entrypoint for fastAPI
-
+# load default cities dict weather data
 df = fetch_weather_data()
 df.to_csv("data/weather_data.csv", index=False)
 
@@ -41,8 +38,7 @@ def get_humidity_chart():
     return StreamingResponse(buffer, media_type="image/png")
 
 
-class CityRequest(BaseModel):
-    cities: List[str]
+# dynamic city list via HTTP post, that uses geo location for lat long custom via city name
 
 @app.post("/custom_weather")
 def custom_weather(req: CityRequest):
