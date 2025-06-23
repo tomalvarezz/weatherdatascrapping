@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse
+from fastapi.responses import FileResponse, StreamingResponse, HTMLResponse, JSONResponse
 from typing import List
 from schemas.city_request import CityRequest  
 from services.fetch_weather import fetch_weather_data, fetch_weather_for_cities
@@ -45,3 +45,18 @@ def custom_weather(req: CityRequest):
     df_custom = fetch_weather_for_cities(req.cities)
     df_custom.to_csv("data/custom_weather_data.csv", index=False)
     return df_custom.to_dict(orient="records")
+
+@app.get("/top_temperature")
+def get_top_temperature(n: int = 5):
+    top_temp = df.sort_values(by="Temperature (C)", ascending=False).head(n)
+    return JSONResponse(content=top_temp.to_dict(orient="records"))
+
+@app.get("/lowest_humidity")
+def get_lowest_humidity(n: int = 5):
+    low_humidity = df.sort_values(by="Humidity (%)", ascending=True).head(n)
+    return JSONResponse(content=low_humidity.to_dict(orient="records"))
+
+@app.get("/top_wind_speed")
+def get_top_wind_speed(n: int = 5):
+    top_wind = df.sort_values(by="Wind Speed (mph)", ascending=False).head(n)
+    return JSONResponse(content=top_wind.to_dict(orient="records"))

@@ -13,6 +13,16 @@ GET http://127.0.0.1:8000/temperature_chart
 ### 💧 View Humidity Chart
 GET http://127.0.0.1:8000/humidity_chart
 
+### Top Wind Speed
+GET http://127.0.0.1:8000/top_wind_speed
+
+
+### Lowest Humidity
+GET http://127.0.0.1:8000/lowest_humidity
+
+### Top Temperature
+GET http://127.0.0.1:8000/top_temperature
+
 ### 🌍 POST Custom Weather Data
 POST http://127.0.0.1:8000/custom_weather
 Content-Type: application/json
