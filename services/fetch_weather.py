@@ -4,7 +4,15 @@ import os
 import requests
 import pandas as pd
 from dotenv import load_dotenv
-from services.constants import CELSIUS_TO_FAHRENHEIT_SCALE, CELSIUS_TO_FAHRENHEIT_OFFSET, MPS_TO_MPH,CITIES
+from datetime import datetime
+from dateutil import parser
+
+from services.constants import (
+    CELSIUS_TO_FAHRENHEIT_SCALE,
+    CELSIUS_TO_FAHRENHEIT_OFFSET,
+    MPS_TO_MPH,
+    CITIES
+)
 
 load_dotenv()
 WEATHER_URL = os.getenv("OPEN_METEO_URL")
@@ -12,7 +20,6 @@ GEOCODING_URL = os.getenv("GEOCODING_URL")
 
 def fetch_weather_data():
     return fetch_weather_for_cities([city["City"] for city in CITIES])
-
 
 def get_coordinates(city_name):
     response = requests.get(GEOCODING_URL, params={"name": city_name, "count": 1})
@@ -51,15 +58,25 @@ def fetch_weather_for_cities(city_list):
 
             hourly = data.get("hourly", {})
             if "time" in hourly and "relativehumidity_2m" in hourly:
-                current_time = current.get("time")
-                if current_time in hourly["time"]:
-                    idx = hourly["time"].index(current_time)
-                    humidity = hourly["relativehumidity_2m"][idx]
+                current_time_str = current.get("time")
+                if current_time_str:
+                    current_time = parser.parse(current_time_str)
+                    hourly_times = [parser.parse(t) for t in hourly["time"]]
+                    humidity_values = hourly["relativehumidity_2m"]
+
+                    # Find the index of the closest timestamp
+                    closest_idx = min(
+                        range(len(hourly_times)),
+                        key=lambda i: abs((hourly_times[i] - current_time).total_seconds())
+                    )
+                    humidity = humidity_values[closest_idx]
 
             weather_data.append({
                 "City": city_name,
                 "Temperature (C)": current.get("temperature"),
-                "Temperature (F)": round((current.get("temperature", 0) * CELSIUS_TO_FAHRENHEIT_SCALE) + CELSIUS_TO_FAHRENHEIT_OFFSET, 2),
+                "Temperature (F)": round(
+                    (current.get("temperature", 0) * CELSIUS_TO_FAHRENHEIT_SCALE) + CELSIUS_TO_FAHRENHEIT_OFFSET, 2
+                ),
                 "Humidity (%)": humidity,
                 "Wind Speed (m/s)": current.get("windspeed"),
                 "Wind Speed (mph)": round(current.get("windspeed", 0) * MPS_TO_MPH, 2)
