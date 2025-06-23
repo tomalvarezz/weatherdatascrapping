@@ -19,7 +19,7 @@ def home():
       <li><a href="/csv">Download CSV</a></li>
       <li><a href="/temperature_chart">Temperature Chart</a></li>
       <li><a href="/humidity_chart">Humidity Chart</a></li>
-      <li><a href="/docs">API Docs</a></li>
+      <li><a href="/docs">swagger api docs</a></li>
     </ul>
     """
 
